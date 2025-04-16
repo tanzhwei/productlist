@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android") version "1.9.24"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
-    id("androidx.navigation.safeargs.kotlin")
+    id("androidx.navigation.safeargs") version "2.8.9"
 }
 android {
     namespace = "com.zhengwei.productlist"
@@ -24,12 +24,13 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-//            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080\"")
-            buildConfigField("String", "BASE_URL", "\"http://192.168.0.126:8080\"")
+        debug {
+//            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080\"") // Emulator
+            buildConfigField("String", "BASE_URL", "\"http://192.168.0.126:8080\"") // Real device
         }
         release {
             isMinifyEnabled = false
+            buildConfigField("String", "BASE_URL", "\"https://api.productionserver.com\"") // Production server
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

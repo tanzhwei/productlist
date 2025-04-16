@@ -28,7 +28,11 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_productDetailFragment_to_productEditFragment"
-            app:destination="@id/productEditFragment" />
+            app:destination="@id/productEditFragment">
+            <argument
+                android:name="productId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment

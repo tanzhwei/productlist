@@ -50,10 +50,8 @@ class ProductListFragment : Fragment() {
         val savedStateHandle = findNavController()
             .getBackStackEntry(R.id.productListFragment)
             .savedStateHandle
-        Log.d("ProductListFragment", "savedStateHandle: $savedStateHandle")
         savedStateHandle.getLiveData<Boolean>("shouldRefresh")
             .observe(viewLifecycleOwner) { shouldRefresh ->
-                Log.d("ProductListFragment", "Should refresh: $shouldRefresh")
                 if (shouldRefresh) {
                     viewModel.refreshProducts()
                     savedStateHandle.remove<Boolean>("shouldRefresh")
@@ -124,7 +122,7 @@ class ProductListFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_add_product -> {
                 findNavController().navigate(
-                    ProductListFragmentDirections.actionProductListFragmentToProductEditFragment(productId = 0)
+                    ProductListFragmentDirections.actionProductListFragmentToProductEditFragment()
                 )
                 true
             }

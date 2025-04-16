@@ -108,12 +108,17 @@ class ProductEditFragment : Fragment() {
         )
 
         viewLifecycleOwner.lifecycleScope.launch {
-            if (productId > 0) {
+            val success = if (productId > 0) {
                 repository.updateProduct(product)
-                Toast.makeText(requireContext(), "Product updated successfully", Toast.LENGTH_SHORT).show()
             } else {
                 repository.addProduct(product)
-                Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show()
+            }
+            if (success) {
+                val message = if (productId > 0) "Product updated successfully" else "Product added successfully"
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            } else {
+                val message = if (productId > 0) "Failed to update product" else "Failed to add product"
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
             findNavController()
                 .getBackStackEntry(R.id.productListFragment)
@@ -124,8 +129,9 @@ class ProductEditFragment : Fragment() {
 
     private fun deleteProduct() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repository.deleteProduct(productId)
-            Toast.makeText(requireContext(), "Product deleted successfully", Toast.LENGTH_SHORT).show()
+            val success = repository.deleteProduct(productId)
+            val message = if (success) "Product deleted successfully" else "Failed to delete product"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             findNavController()
                 .getBackStackEntry(R.id.productListFragment)
                 .savedStateHandle["shouldRefresh"] = true
